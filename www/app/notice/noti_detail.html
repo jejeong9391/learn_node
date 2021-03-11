@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimun-scale=1.0, width=device-width">
+    <title>신일푸드</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-TxKWSXbsweFt0o2WqfkfJRRNVaPdzXJ/YLqgStggBVRREXkwU7OKz+xXtqOU4u8+" crossorigin="anonymous">
+
+    <!-- <script src="./script.js"></script>-->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+
+    <!--main_list 공통js-->
+    <link href="../reset.css" rel="stylesheet">
+    <link href="./notice.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <div id="wrap" class="wrapClass">
+
+        <header id="header">
+            <div class="hdLeft" onclick="history.back();">
+                <a href="#">
+                    <!--   <i class="fas fa-chevron-left"></i>-->
+                    <i class="material-icons">keyboard_arrow_left</i>
+                </a>
+            </div>
+            <h3 class="textLogo"><a href="#">공지사항</a></h3>
+            <a href="../list/order_list.html" class="btnMenu">
+                <!--  <img src="./../img/icons/icon_02.png" alt="메뉴열기">-->
+                <i class="fas fa-home rightIcon"></i>
+            </a>
+            <!--.btnMenu-->
+        </header>
+
+        <!--#header-->
+
+        <div id="container" class="conClass">
+            <div class="titleWrap">
+                <div class="title">
+                    <p>
+                        <!--rest-->
+                    </p>
+                </div>
+                <div class="notiDate">2020.02.19 17:25:58</div>
+            </div>
+            <div class="conWrap">
+                <div class="content">
+                    <textarea name="context" id="context" readonly>
+
+                   </textarea>
+                </div>
+                <!--하단 여백부여-->
+                <div class="blank"></div>
+            </div>
+
+        </div>
+        <!-- no footer -->
+    </div>
+
+    <!-- toast div(alert창 대신사용) -->
+    <div class="toast" style="display:none;"></div>
+
+    <!-- rest -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script type="text/javascript">
+        //url 파라미터 가져오기 
+        var wn_num = getParamByName('notiNum');
+        $(document).ready(function() {
+
+            getNotice();
+        });
+
+        //샵스타일목록 rest호출
+        function getNotice() {
+            // var wn_num = 1;
+            request('json/notice-detail.php', wn_num, {
+                "flag": "GET",
+                "u_idx": localStorage.getItem('u_idx'),
+                "rider_idx": localStorage.getItem('rider_idx'),
+                "u_token": localStorage.getItem('u_token'),
+
+
+            }).then(function(resp) {
+                var rowsNum = resp.data.meta.rows;
+
+                if (rowsNum > 0) {
+                    var data = resp.data.data;
+                    data.forEach(function(item) {
+
+                        $(".title p").text(item.wn_title); //공지사항 제목
+                        $(".notiDate").text(item.last_update); //공지사항 last_update
+                        var notiCon = item.wn_contents;
+                        if (notiCon.length > 0) {
+                            $(".content textarea").text(notiCon);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+    <!-- rest -->
+
+
+</body></html>

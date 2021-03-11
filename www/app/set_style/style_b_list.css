@@ -1,0 +1,117 @@
+@charset "utf-8";
+
+#wrap {
+    width: 100%;
+	height: 100%;
+    position: relative;
+}
+
+#container{
+    /* text-align: center; */
+    margin-top: 195px;  /*헤더(50px),검색(45px) 높이의 합 +펫카테고리선택*/
+    margin-bottom: 100px;
+    width: 100%;
+}
+
+/* header start */
+#header{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index:100;
+    background-color: #fff;
+}
+
+.btnBack{
+    width: 15%;
+    text-align: center;
+    color: #ff7d7e;
+    /* background-color: #fff; */
+}
+
+#headerSch{
+    position: fixed;
+    top: 150px;
+    left: 0px;
+    background-color: #fff;
+    width: 100%; 
+    height: 45px; 
+    line-height: 45px; 
+    float: left;
+	z-index:100;
+}
+
+#btnSch{
+    width:15px; 
+    height:15px; 
+    margin: 15px;
+}
+/*-- 펫종류선택 --*/
+.petCateWrap{
+    width:100%; white-space: nowrap; text-align: center;
+    height: 100px; position: fixed; top:50px; left: 0; background-color: #fff;
+}
+
+.petCateDiv{
+    width:35%; display : inline-block;
+}
+
+#btnDog, #btnCat {
+    width:50px;
+}
+
+.cateName{
+    margin: 5px;
+    font-size: 15px;
+}
+/*----------------*/
+
+/* header end */
+
+
+/* container start */
+
+input[type=text]{
+    width: 100%; border:none; outline: none;
+}
+
+.categoryList{
+    border-top: 1px solid #ddd; 
+}
+.breedsCate{
+    margin-left:2%; 
+    width: 98%; 
+    height: 45px; 
+    line-height: 45px; 
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}
+
+/* 품종카테고리 위아래방향아이콘 */
+.breedsCate > img{
+    width:10px; 
+    height: 5px; 
+    float: right; 
+    padding: 20px;
+}
+
+.petBreeds{
+    margin-left:5%; 
+    width: 95%; 
+    height: 45px; 
+    line-height: 45px; 
+    border-bottom: 1px solid #ddd;
+}
+
+.no-content{
+    margin-top: 120px;
+    text-align: center;
+    font-size: 15px;
+    color: #ff7d7e;
+}
+/* container end */
+
+

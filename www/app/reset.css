@@ -1,0 +1,227 @@
+@charset "utf-8";
+/* CSS Document */
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap');
+
+/*https://noonnu.cc/font_page/223*/
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/*https://noonnu.cc/font_page/81*/
+/*영상매체, 인쇄매체, 웹, 모바일 등 다양한 매체에 자유롭게 사용이 가능하며, 특별한 허가절차 없이 사용할 수 있습니다.
+다만, 고양일산체를 유료로 양도하거나 판매하는 등 상업적 행위는 금지하고 있으며, 변형하여 재배포하는 등 고양일산체를 변형시키는 행위 또한 금지하고 있습니다.*/
+@font-face {
+    font-family: 'GoyangIlsan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GoyangIlsan.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'GoyangIlsan';
+    user-select: none;
+	overscroll-behavior: contain; /*모바일 스와이프 시, 새로고침 방지*/
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    /*font-family: 'Noto Sans KR', sans-serif;*/
+    /*  font-family: 'GoyangIlsan';*/
+    font-size: 14px;
+    line-height: 18px;
+    color: #121212;
+}
+
+a {
+    color: #121212;
+    text-decoration: none;
+}
+
+img {
+    vertical-align: top;
+    border: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+/* 클릭시, 테두리생기는 문제 방지 */
+input:focus {
+  outline: none;
+}
+textarea:focus {
+  outline: none;
+}
+a:focus {
+  outline: none;
+}
+
+
+/* ===== 전체 페이지 공통css =====*/
+#header {
+    width: 100%;
+    height: 50px;
+
+    top: 0;
+
+    /*background-color: #2b784e;*/
+    background-color: #1eae97;
+    /*    background: #fff;*/
+    position: fixed;
+    z-index: 9999;
+}
+
+.logo {
+    width: 104px;
+    margin: 0 auto;
+    /* padding-top: 10px;*/
+}
+
+.logo a {
+    display: block;
+    height: 50px;
+    text-indent: -9999px;
+    /*    background: url(./../img/icons/hdLogo.png) 0% 0% / auto 30px no-repeat;*/
+}
+
+.btnMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    /*    background: #fff;*/
+    /* background-color: #2b784e;*/
+    background-color: #1eae97;
+    text-align: center;
+}
+
+.btnMenu img {
+    width: 22px;
+    height: auto;
+    margin-top: 15px;
+}
+
+/* ===== 컨테이너 본문영역 =====*/
+#container {
+    padding: 0;
+    width: 100%;
+    margin-top: 50px;
+    /* border: 2px solid;*/
+    box-sizing: border-box;
+}
+
+
+/*전체 페이지 공통css 끝*/
+
+
+/* toast div */
+.toast {
+    width: 200px;
+    height: auto;
+    position: fixed;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 250px;
+    z-index: 9999;
+    background-color: #383838;
+    color: #F0F0F0;
+    font-family: Calibri;
+    font-size: 15px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-sizing: content-box;
+}
+
+.textLogo {
+    text-align: center;
+    /* width: 104px; */
+    margin: 0 auto;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    box-sizing: border-box;
+    /* float: left; */
+    width: 80%;
+}
+
+.textLogo a {
+    color: #fff;
+    font-weight: 300;
+    font-size: 19px
+}
+
+.rightIcon {
+    font-size: 25px;
+    /* font-weight: 100px;*/
+    color: #fff;
+    padding: 10px;
+}
+
+/* 뒤로가기*/
+.hdLeft i {
+    /* font-weight: 100; */
+    font-size: 35px;
+    color: #fff;
+    width: 10%;
+    height: 100%;
+    line-height: 32px;
+    float: left;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.btnCall {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    color: #fff;
+}
+
+.material-icons {
+    /*구글아이콘 // 뒤로가기 화살표*/
+    display: block;
+    line-height: 50px;
+    font-size: 25px;
+    color: #1eae97;
+}
+
+.blank {
+    /*footer만큼 여백부여*/
+    width: 100%;
+    height: 10px;
+}
+
+.noContent {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: 0 auto;
+    /*border: 1px solid;*/
+    text-align: center;
+    padding-top: 100px;
+    font-size: 18px;
+    color: #1eae97;
+
+
+}

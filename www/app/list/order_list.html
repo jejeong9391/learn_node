@@ -1,0 +1,362 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimun-scale=1.0, width=device-width">
+    <title>신일푸드</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-TxKWSXbsweFt0o2WqfkfJRRNVaPdzXJ/YLqgStggBVRREXkwU7OKz+xXtqOU4u8+" crossorigin="anonymous">
+    <!--구글아이콘-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--alert플러그인-->
+    <link href="../lib/plugin/modal-master/css/jquery.modal.css" type="text/css" rel="stylesheet" />
+    <link href="../lib/plugin/modal-master/css/jquery.modal.theme-xenon.css" type="text/css" rel="stylesheet" />
+    <link href="../lib/plugin/modal-master/css/jquery.modal.theme-atlant.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../lib/plugin/modal-master/js/jquery.modal.js"></script>
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    <!--main_list 공통js-->
+    <link href="../reset.css" rel="stylesheet">
+    <link href="./list_style.css" rel="stylesheet">
+    <!--  <link href="./style_set.css" rel="stylesheet">-->
+
+
+
+    <!--	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+</head>
+
+<body>
+    <div id="wrap">
+
+        <header id="header">
+            <div class="hdLeft">
+                <a href="../menu_setting/menu_setting.html">
+                    <!--                    <i class="fas fa-chevron-left"></i>-->
+                </a>
+            </div>
+            <h3 class="textLogo"><a href="#">주문 관리</a></h3>
+            <a href="../menu_setting/menu_setting.html" class="btnMenu">
+                <!--  <img src="./../img/icons/icon_02.png" alt="메뉴열기">-->
+                <i class="material-icons" style="color:#fff;">
+                    menu
+                </i>
+                <!-- <i class="fas fa-bars rightIcon"></i>-->
+            </a>
+            <!--.btnMenu-->
+        </header>
+
+        <!--#header-->
+
+        <div id="container">
+            <div class="period">
+                <span>기간&nbsp; : &nbsp;</span>
+                <input type="text" id="sdate" name="sdate" readonly>&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
+                <input type="text" id="edate" name="edate" readonly></div>
+            <div class="boxWrap">
+                <div class="box activeBox leftBox">
+                    <input type="hidden" value="0">
+                    <p>주문 접수</p>
+                    <p>0건</p>
+                    <!--주문 접수 3건-->
+                </div>
+                <div class="box rightBox">
+                    <input type="hidden" value="1">
+                    <p>배송 완료</p>
+                    <p>0건</p>
+                    <!--  배달 완료  3건-->
+                </div>
+            </div>
+            <div class="noContent" style="display: none; ">
+                <p>검색결과가 없습니다. </p>
+            </div>
+            <ul id="setList" class="setUl" style="padding-top: 0;">
+
+                <!--  <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점3호점4호점5호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call" onclick="document.location.href='tel:010-3306-2815'">통화</button>
+                        </div>
+                    </div>
+                </li>-->
+                <!--반복시작-->
+
+                <!--반복끝-->
+            </ul>
+            <div class="blank"></div>
+        </div>
+        <!-- footer -->
+        <div class="newOrd">
+            <div class="goOrd">주문하기</div>
+        </div>
+    </div>
+
+    <!-- toast div(alert창 대신사용) -->
+    <div class="toast" style="display:none;"></div>
+    <script>
+        /* alertBox("안녕", goNaver);
+ 
+   function goNaver(){
+      location.href = "http://www.naver.com";
+   }*/
+    </script>
+    <!-- rest -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script type="text/javascript">
+
+        var sdate = $("#sdate");
+        var edate = $("#edate");
+        var io_status = $("input[name='io_status']"); // 0: 주문완료 1: 배달완료
+        var u_idx = localStorage.getItem('rider_idx');
+
+        //날짜 초기값 세팅
+        if (($("#sdate").val() == '')) {
+            $("#sdate").val(today);
+        }
+        if (($("#edate").val() == '')) {
+           // $("#edate").val(today);
+		  $("#edate").val(lastWeek());
+        }
+
+        $(document).ready(function() {
+
+            getCnt(sdate.val(), edate.val()); //주문/배달 건수 가져오기
+
+
+            $(".goOrd").on('click', function() {
+                location.href = "./store_list.html";
+            });
+
+            $(".box").on('click', function() {
+                //1. 클릭한 1class가 아닌 2class는 컬러변경 
+                $(".box").not(this).removeClass("activeBox");
+                $(this).addClass("activeBox");
+                console.log($(this).children().val());
+                $("input[name='io_status']").val($(this).children().val());
+
+
+                //2. 클릭한 요소의rest 호출할 것  // 주문/배달 rest따로 필요할지는 체크할 것
+                $('#setList').empty();
+                getOrderList(sdate.val(), edate.val(), $(this).children().val()); //변수는 status 반영이 안됨.
+            });
+
+        });
+
+
+        // 주문 건수 출력 
+        function getCnt(sdate, edate) {
+            $('#setList').empty();//list제거
+            request('json/orderCnt.php', '', {
+                "flag": "GET",
+                "u_idx": localStorage.getItem('u_idx'),
+                "rider_idx": localStorage.getItem('rider_idx'),
+                "store_idx": localStorage.getItem('store_idx'),
+                "u_token": localStorage.getItem('u_token'),
+                "sdate": sdate,
+                "edate": edate
+
+            }).then(function(resp) {
+                var rowsNum = resp.data.meta.rows;
+
+                if (rowsNum > 0) {
+                    //화면에 나타내기
+
+                    var headList = resp.data.data;
+                    headList.forEach(function(item) {
+                        //  console.log('주문은 : '+item.io_0 + '건 || 배달은 :'+item.io_1 + '건');
+                        if (item.io_0 != null) {
+                            $(".leftBox p:last").text(item.io_0 + '건');
+                            $(".rightBox p:last").text(item.io_1 + '건');
+
+
+                        } else { //기간 시작/끝이 맞지않아 데이터가 없는 경우
+                            //   alertBox("검색결과가 없습니다.", reload);
+                            //   msgToast('해당 기간에 주문건수가 없습니다.');
+                            $(".leftBox p:last, .rightBox p:last").text('0건');
+
+
+                        }
+                        //리스트 가져오기 
+                        getOrderList(sdate, edate, 0);
+
+                    });
+                }
+
+
+            }); // e.preventDefault;
+
+
+            // }
+        }
+
+        //샵스타일목록 rest호출
+        function getOrderList(sdate, edate, Type) {
+
+            request('json/order-list.php', '', {
+                "flag": "GET",
+                "io_status": Type,
+                "u_idx": localStorage.getItem('u_idx'),
+                "store_idx": localStorage.getItem('store_idx'),
+                "rider_idx": localStorage.getItem('rider_idx'),
+                "u_token": localStorage.getItem('u_token'),
+                "sdate": sdate,
+                "edate": edate
+
+            }).then(function(resp) {
+                var rowsNum = resp.data.meta.rows;
+
+                //건수 가져오는 
+                /* if (Type == '0') {
+                    $(".leftBox p:last").text(rowsNum + '건');
+                } else {
+                    $(".rightBox p:last").text(rowsNum + '건');
+                }
+*/
+                if (rowsNum > 0) {
+
+                    //화면에 나타내기
+                    $('.noContent').hide();
+                    $('#setList').show();
+                    var html = "";
+                    //rest로 받아온 리뷰데이터를 forEach문으로 리뷰ul에 추가하기
+                    var headList = resp.data.data;
+                    headList.forEach(function(item) {
+                        var ioDate = item.io_date.substr(5);
+
+                        html += '<li id="' + item.io_idx + '" class="getStore">';
+                        html += '    <input type="hidden" id="io_idx" value="' + item.io_idx + '">';
+                        html += '    <input type="hidden" id="store_idx" value="' + item.store_idx + '">';
+                        html += '    <input type="hidden" id="store_tel" value="' + item.tel + '">';
+                        html += '    <div class="storeWrap">';
+                        html += '        <div class="storeTitle">';
+                        html += '            <span>' +ioDate+"_"+ item.u_name + '</span>';
+                        html += '       </div>';
+                        html += '<div class="storeBtnWrap">';
+                        /*  if (item.io_status == '0') {
+
+                              html += '<button class = "twoBtn ord orSet">주문하기 </button>';
+                              html += '<button class = "twoBtn call deSet">통화 </button>';
+
+                          } else {*/
+                        html += '<button class = "twoBtn ord orSet">주문내역 </button>';
+                        html += '<button class = "twoBtn call deSet">통화 </button>';
+                        /*  $(".ord").css("width", "56%");
+                          $(".call").css("width", "40%");*/
+                        // }
+
+                        html += '   </div>';
+                        html += '  </div>';
+                        html += '</li>';
+                    });
+
+                    $("#setList").append(html);
+
+                    $(".call").on('click', function() {
+                        var tel = $(this).parents('li').children('#store_tel').val();
+
+                        if (tel != '') {
+                            document.location.href = 'tel:' + tel; //통화기능 
+                        } else {
+                            msgToast('등록된 전화번호가 없습니다.');
+                            //  alert('등록된 전화번호가 없습니다.');
+                        }
+                    });
+
+                    //주문상세로 이동
+                    $(".ord").on("click", function() {
+                        var io_idx = $(this).parents('li').children('#io_idx').val();
+                        var st_idx = $(this).parents('li').children('#store_idx').val();
+                        var st_name = $(this).parents('li').find('.storeTitle span').text().substr(6); //입고날짜 제거 
+                        //alert(st_name);
+                        //console.log(io_idx+'||'+st_idx);
+                        location.href = 'order_detail.html?st_idx=' + st_idx + '&io_idx=' + io_idx + '&st_name=' + st_name;
+                    })
+
+                } else { // 결과 list가 없을 경우 
+                    $('.noContent').show();
+                    $('#setList').hide();
+                }
+            });
+        }
+    </script>
+    <!-- 데이트피커 js/css -->
+    <link rel="stylesheet" href="./datepicker.css">
+
+    <script>
+        function reload() {
+            location.reload();
+        }
+        //datePicker 선언은 function.js 에 있음. 
+        $(function() {
+            //jQuery(function($){
+            $.datepicker.regional["ko"] = {
+                closeText: "취소",
+                prevText: "이전달",
+                nextText: "다음달",
+                currentText: "오늘",
+                monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                dayNames: ["일", "월", "화", "수", "목", "금", "토"],
+                dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+                dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+                changeMonth: true, // month 셀렉트박스 사용
+                changeYear: true, // year 셀렉트박스 사용
+                weekHeader: "Wk",
+                dateFormat: "yy-mm-dd",
+                firstDay: 0,
+                isRTL: false,
+                showOtherMonths: true, //월 1일 이전, 월 말일 이후 빈칸에 이전달, 다음달 날짜 출력 여부
+                selectOtherMonths: true, //showOtherMonths 선택가능
+                showMonthAfterYear: true, //연도선택이 왼쪽에 위치 
+                yearSuffix: ""
+            };
+            $.datepicker.setDefaults($.datepicker.regional["ko"]);
+
+            // Today 버튼 코드 추가
+            $.datepicker._gotoToday = function(id) {
+
+                //$(id).datepicker('setDate', new Date());
+                // $(".ui-datepicker").hide().blur(); //blur 처리안됨
+                //$(".hasDatepicker").blur(); //blur는 되지만 input 외부클릭해야 다시 datePicker 불러올 수 있음.
+                $(id).datepicker('setDate', new Date()).datepicker('hide').blur(); // hide를 요렇게 해야하나봄ㅠㅠ
+                getCnt(sdate.val(), edate.val()); //주문/배달 건수 가져오기
+                // getOrderList(sdate.val(), edate.val(), 0);
+            };
+        });
+        $('#sdate,#edate').datepicker({
+            closeText: '취소',
+            showButtonPanel: true,
+            onClose: function() {
+                if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                    //$(this).val(''); 날짜 값 초기화
+                }
+            },
+            onSelect: function(dateText) { //클릭
+                //alert("선택한 날짜: " + dateText + "; input에 있는 날짜: " + this.value);
+                if (sdate.val() > edate.val()) {
+                    getCnt(sdate.val(), edate.val());
+                    //    alertBox("기간의 시작날짜가 더큼");
+
+                } else {
+                    getCnt(sdate.val(), edate.val()); //주문/배달 건수 가져오기
+                }
+
+            }
+
+        });
+        //});
+    </script>
+    <!--#wrap-->
+
+
+</body></html>

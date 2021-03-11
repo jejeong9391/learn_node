@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<!--캐시삭제-->
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+
+
+    <link href="./../reset.css" rel="stylesheet">
+    <link href="./style_b_list.css" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+
+
+    <title>pet breeds</title>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header id="header">
+            <div class="btnBack" id="btnBack" onclick="history.back();"> back </div>
+            <div style="width: 85%;"></div>
+        </header>
+
+        <!-- dog/cat select div -->
+        <div class="petCateWrap">
+            <div class="petCateDiv">
+                <img src="./../img/icons/icon_31.png" id="btnDog">
+                <div class="cateName">강아지</div>
+                <div>131 종</div>
+            </div>
+
+            <div class="petCateDiv">
+                <img src="./../img/icons/icon_32.png" id="btnCat">
+                <div class="cateName">고양이</div>
+                <div>59 종</div>
+            </div>
+
+            <input type="hidden" name="petCate1" value="강아지">
+        </div>
+
+        <!-- 헤더 검색부분 -->
+        <div id="headerSch">
+            <img src="./../img/icons/icon_01.png" id="btnSch">
+            <input type="text" name="sch" placeholder="검색" style="width:80%;" onkeypress="getBreedsList(this.value);">
+        </div>
+
+   
+        <div id="container">
+			<!--검색결과 없을시-->
+			<div class='no-content' style="display: none;">등록되지 않은 품종입니다.</div>
+
+            <!-- 품종카테고리(검색결과) -->
+            <ul class="categoryList">
+                <!-- 이전페이지에서 강아지/고양이 선택값 가져오고, 그에따라서 php로 품종카테고리와 종 갯수 가져오도록 수정해야함 -->
+                <li class="breedsCate" id="breedsCate_1" onclick="show(1);">
+                    <input type="hidden" name="petb_cate2_1" value="대형견">
+                    <span class="cateTitle">대형견 (52종)</span>
+                    <img src="./../img/icons/icon_04.png" id="btnCate_1">
+                </li>
+                    <ul id="list_1" style="display: none;"></ul>
+                    
+                <li class="breedsCate" id="breedsCate_2" onclick="show(2);">
+                    <input type="hidden" name="petb_cate2_2" value="중형견">
+                    <span class="cateTitle">중형견 (44종)</span>
+                    <img src="./../img/icons/icon_04.png" id="btnCate_2">
+                </li>
+                    <ul id="list_2" style="display: none;"></ul>
+
+                <li class="breedsCate" id="breedsCate_3" onclick="show(3);">
+                    <input type="hidden" name="petb_cate2_3" value="소형견">
+                    <span class="cateTitle">소형견 (35종)</span>
+                    <img src="./../img/icons/icon_04.png" id="btnCate_3">
+                </li>
+                    <ul id="list_3" style="display: none;"></ul>
+            </ul>
+        </div>
+
+  
+        <!-- no footer -->
+    </div>
+
+    <script>
+        //강아지 선택시
+        $("#btnDog").click(function(){
+            $("input[name=petCate1]").val("강아지");
+            $("input[name=petb_cate2_1]").val("대형견");
+            $("input[name=petb_cate2_1]").next().html("대형견 (52종)");
+
+            $("input[name=petb_cate2_2]").val("중형견");
+            $("input[name=petb_cate2_2]").next().html("중형견 (44종)");
+
+            getBreedsList($("input[name=sch]").val());
+        });
+
+        //고양이 선택시
+        $("#btnCat").click(function(){
+			//고양이는 petbcate2가 2개뿐이라서 소형견부분은 안보이도록 함
+			$('#breedsCate_3').hide();
+
+            $("input[name=petCate1]").val("고양이");
+            $("input[name=petb_cate2_1]").val("장모종");
+            $("input[name=petb_cate2_1]").next().html("장모종 (22종)");
+
+            $("input[name=petb_cate2_2]").val("단모종");
+            $("input[name=petb_cate2_2]").next().html("단모종 (37종)");
+
+            getBreedsList($("input[name=sch]").val());
+        });
+
+        //품종리스트에서 선택했을 때
+        $(document).on('click', '.petBreeds', function(){
+	
+            var thisid=$(this).attr('id');
+
+            // '80|대형견|골든리트리버' 형태를 구분자로 자르기
+            var val=$("#val"+thisid).val().split('|');
+
+            $("input[name=petbNum]" , opener.document).val(thisid); //부모창에 품종num 넘기기
+            $("input[name=petbBreeds]" , opener.document).val(val[2]); //부모창에 품종명 넘기기
+            close(); //팝업창 닫기
+
+        });
+
+        function show(num){
+            $("#list_"+num).toggle();
+            
+            //품종카테고리의 하위 품종목록리스트가 보이는지 여부에 따라 오른쪽 아이콘의 방향을 위아래로 회전시킴
+            if( $("#list_"+num).css("display")=="block" ){
+                //리스트를 펼친 상태이므로 180도 회전해서 위쪽 방향이 되도록 함.
+                $("#btnCate_"+num).css('transform','rotate(180deg)');
+            } else{
+                //접은 상태이므로 아래쪽 방향 아이콘
+                $("#btnCate_"+num).css('transform','rotate(0deg)');
+            }
+        }
+    
+    </script>
+
+    <!-- rest data받기 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function (){
+            getBreedsList(''); //페이지 로드시 품종전체목록 가져오기
+        });
+
+
+		function getBreedsList(petb_breeds) {
+            //var pet='강아지'; //이전 페이지에서 강아지,고양이 선택한 값을 가져와야함
+            var petCate1 = $("input[name=petCate1]").val();
+
+			request('/json/pet-breeds.php', petCate1, {  "flag":"GET", "u_token":"cd157d49354b1f66c001b7360d83f622dccf540a","u_idx":"testtest", "petb_breeds":petb_breeds}).then(function(resp){
+                /*============ rest로 가져온 데이터 화면에 나타내기 =========*/
+                //이전 검색결과 품종목록 초기화하기
+                $('#list_1').empty();
+                $('#list_2').empty();
+                $('#list_3').empty();
+                
+                var rowsNum = resp.data.meta.rows;
+
+                if(rowsNum > 0){
+                    //품종검색결과가 있는 경우
+					$('.categoryList').show();
+					$('.no-content').hide();
+
+                    //rest로 받아온 펫품종데이터를 forEach문으로 각각 일치하는 품종카테고리 ul에 추가하기
+                    var petBreeds = resp.data.data;
+                    petBreeds.forEach(function (item){
+                        var html = '<li class="petBreeds" id="'+item.num+'">'+item.petb_breeds+'<input type="hidden" id="val'+item.num+'" value="'+item.num+'|'+item.petb_cate2+'|'+item.petb_breeds+'"></li>';
+
+                        //일치하는 품종카테고리에 추가하기
+                        if( item.petb_cate2 == $('input[name=petb_cate2_1]').val() ){
+                            $('#list_1').append(html);
+                        } else if( item.petb_cate2 == $('input[name=petb_cate2_2]').val() ){
+                            $('#list_2').append(html);
+                        } else if( item.petb_cate2 == $('input[name=petb_cate2_3]').val() ){
+                            $('#list_3').append(html);
+                        }
+                        
+                    });
+
+                    //검색결과가 없는 품종카테고리는 안 보이도록 함
+                    for(var i=1; i<4; i++){
+                        if( $('#list_'+i+' > li').length == 0){
+                            $('#breedsCate_'+i).hide();
+                        } else {
+                            $('#breedsCate_'+i).show();
+                        }
+                    }
+                    
+                } else{
+                    //품종검색결과 없는 경우
+                    //$("#container").html("<div class='no-content'>등록되지 않은 품종입니다.</div>");
+					$('.categoryList').hide();
+					$('.no-content').show();
+					
+                }
+            });
+		}        
+    </script>
+    <!-- rest -->
+
+    
+</body>
+</html>

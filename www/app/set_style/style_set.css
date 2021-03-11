@@ -1,0 +1,269 @@
+@charset "utf-8";
+
+#wrap {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#container {
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+    /*헤더높이만큼*/
+}
+
+/* header start */
+#header {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.btnBack {
+    width: 15%;
+    text-align: center;
+    color: #ff7d7e;
+    background-color: #fff;
+    vertical-align: middle;
+}
+
+/* header end */
+
+
+/*-------- 화면별 css ------*/
+/* container start */
+/*============ list 화면 ================*/
+#addBtn {
+    height: 50px;
+    line-height: 50px;
+    color: #ff7d7e;
+}
+
+#addBtn a {
+    color: #ff7d7e;
+}
+
+#setList {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+}
+
+.setImgDiv {
+    width: 100px;
+    height: 100px;
+    float: left;
+}
+
+.setImg {
+    width: 100px;
+    height: 70px;
+    margin: 15px;
+    border-radius: 5px;
+}
+
+.liRight {
+      height: 70px;
+    text-align: left;
+    /* margin-left: 100px; */
+    border-top: 1px solid #ddd;
+    padding: 15px 15px 15px 0px;
+    position: relative;
+}
+
+#setList > li:nth-child(1) > .liRight {
+    /*첫번째 li만 위의 border 없애기*/
+    border: 0;
+}
+
+.liRightBtn {
+    display: inline-block;
+    border: 1px solid #ddd;
+    width: 15%;
+    padding: 5px;
+    text-align: center;
+    color: #222;
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    border-radius: 15px;
+}
+
+/*============ write 화면 css ============*/
+.containerInner {
+    padding: 0 20px;
+    margin-top: 65px;
+    margin-bottom: 80px;
+    text-align: left;
+}
+
+.imgDiv {
+    background-color: #e0e0e0;
+    height: 200px;
+    border-radius: 5px;
+    text-align: center;
+    background-image: url(./../img/icons/icon_64.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#style_image {
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.btnWrap {
+    margin-top: 20px;
+    /*margin-bottom: 30px;*/
+    height: 30px;
+}
+
+.btnLeft {
+    float: left;
+    width: 49%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.btnRight {
+    float: right;
+    width: 49%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/*pet breed*/
+.petbWrap {
+    float: left;
+    width: 85%;
+}
+
+input[type=text] {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+.lineText {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.lineText:hover {
+    /* 입력중인 영역 밑줄의 굵기, 색변화 */
+    border-bottom: 1px solid #ff7d7e;
+    padding-bottom: 5px;
+}
+
+.circleBtn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    float: right;
+}
+
+.circleBtn > img {
+    width: 14px;
+    height: 14px;
+    margin: 8px;
+    display: inline-block;
+}
+
+
+/* tag */
+.tagWrap {
+    clear: both;
+    padding-top: 30px;
+}
+
+.tagBorder {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.tagItem {
+    display: inline-block;
+    background-color: #EBEBEB;
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.tagDel {
+    width: 8px;
+    height: 8px;
+    padding: 5px 3px;
+    margin-left: 2px;
+}
+
+
+/* container end */
+
+
+
+/*--------------공통---------------*/
+/* footer start */
+#footer {
+    width: 100%;
+    height: 55px;
+    line-height: 45px;
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    color: #fff;
+    border-top: #222 1px solid;
+}
+
+.btnNext {
+    background-color: #fff;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.btnNext p {
+    width: auto;
+    height: 45px;
+    text-align: center;
+    color: #fff;
+    background-color: #ff7d7e;
+}
+
+/* footer end */
+
+
+
+/* toast div */
+.toast {
+    width: 200px;
+    height: auto;
+    position: fixed;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 250px;
+    z-index: 9999;
+    background-color: #383838;
+    color: #F0F0F0;
+    font-family: Calibri;
+    font-size: 15px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+}

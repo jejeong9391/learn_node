@@ -1,0 +1,315 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimun-scale=1.0, width=device-width">
+    <title>신일푸드</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+
+    <!-- <script src="./script.js"></script>-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    <!--main_list 공통js-->
+    <link href="../reset.css" rel="stylesheet">
+    <link href="./list_style.css" rel="stylesheet">
+    <link href="./style_set.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="wrap">
+
+         <header id="header">
+            <div class="hdLeft">
+                   <a href="../menu_setting/menu_setting.html">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </div>
+            <h3 class="textLogo"><a href="#">공지사항</a></h3>
+            <a href="../list/order_list.html" class="btnMenu">
+                <!--  <img src="./../img/icons/icon_02.png" alt="메뉴열기">-->
+                <i class="fas fa-home homeIcon"></i>
+            </a>
+            <!--.btnMenu-->
+        </header>
+
+        <!--#header-->
+
+        <div id="container">
+            <div class="period">
+                <span>기간 : &nbsp;</span>
+                <input type="text" id="sdate" name="sdate">&nbsp;&nbsp;~&nbsp;&nbsp;
+                <input type="text" id="edate" name="edate"></div>
+            <div class="boxWrap">
+                <div class="box bLeft">
+                    주문 접수 3건
+                </div>
+                <div class="box bRight">
+                    배달 완료 1건
+                </div>
+            </div>
+            <ul id="setList" style="padding-top: 0;">
+                <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call">통화</button>
+                        </div>
+                    </div>
+                </li>
+                <!--반복시작-->
+                <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call">통화</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call">통화</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call">통화</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call">통화</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call">통화</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call">통화</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="getStore">
+                    <div class="storeWrap">
+                        <div class="storeTitle"><span>BHC 경상대2호점</span></div>
+                        <div class="storeBtnWrap">
+                            <button class="twoBtn ord">주문</button>
+                            <button class="twoBtn call">통화</button>
+                        </div>
+                    </div>
+                </li>
+                <!--반복끝-->
+            </ul>
+        </div>
+        <!-- footer -->
+        <div class="newOrd">
+            <div class="goOrd" >주문하기</div>
+        </div>
+    </div>
+
+    <!-- toast div(alert창 대신사용) -->
+    <div class="toast" style="display:none;"></div>
+
+    <!-- rest -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script type="text/javascript">
+        var page = 1;
+
+        $(document).ready(function() {
+            console.log(page);
+            //  getHeadList(page); //로그인 되어있으면 기사num 가져오기  
+            page++;
+
+             $(".goOrd").on('click', function() {
+                       location.href = "./store_list.html";
+                });
+
+        });
+
+        //샵스타일목록 rest호출
+        function getHeadList(page) {
+            var b_code = "A0000"; //관리지점
+            request('json/head-list.php', '', {
+                "flag": "GET",
+                "u_token": "b935e82cce4a9f69b2c648b9fcc58879a233c301",
+                "u_idx": "1240430416",
+                "page": page,
+                "scale": "10"
+            }).then(function(resp) {
+                var rowsNum = resp.data.meta.rows;
+
+                if (rowsNum > 0) {
+                    //화면에 나타내기
+
+                    var html = "";
+                    //rest로 받아온 리뷰데이터를 forEach문으로 리뷰ul에 추가하기
+                    var headList = resp.data.data;
+                    headList.forEach(function(hd) {
+                        html += '<li id="' + hd.u_idx + '" class="getStore">';
+                        html += '    <div class="setImgDiv">';
+
+                        if (hd.image != null) {
+                            html += '        <img src="http://oil.mesoft.kr/data/logo/' + hd.image + '" class="setImg">';
+                        } else {
+                            html += '        <span  class="noImg">no image</span>';
+                        }
+                        html += '    </div>';
+                        html += '    <div class="liRight">';
+                        html += '       <div class="brTitle" ><span>' + hd.u_name + ' (2)</span> </div>';
+                        html += '   </div>';
+                        html += '</li>';
+
+                    });
+
+                    $("#setList").append(html);
+                    $(".getStore").on('click', function() {
+                        // alert($(this).attr('id'));
+                        getStore($(this).attr('id'));
+                    });
+                }
+            });
+        }
+
+        //샵스타일목록 rest호출
+        function getStore(idx) {
+
+            //열려있는 li가 있으면 닫기
+            var clickLi = $("#" + idx).children("li");
+            // if (clickLi.css("display")=="none") {
+            if (clickLi.length) {
+                clickLi.slideToggle("fast");
+                return false;
+            }
+
+            //li 초기화
+            $('.liWrap').remove();
+
+            var b_code = "A0000"; //관리지점
+            request('json/store-list.php', idx, {
+                "flag": "GET",
+                "u_token": "b935e82cce4a9f69b2c648b9fcc58879a233c301",
+                "u_idx": "1240430416",
+                "page": 1,
+                "scale": "10"
+            }).then(function(resp) {
+                var rowsNum = resp.data.meta.rows;
+
+                if (rowsNum > 0) {
+                    //화면에 나타내기
+
+                    var html = "";
+                    //rest로 받아온 리뷰데이터를 forEach문으로 리뷰ul에 추가하기
+                    var store = resp.data.data;
+                    store.forEach(function(st) {
+                        html += '<li class="liWrap" style="display:none;">';
+                        ///지역별 지점출력 
+                        html += '    <div class="liTitle">';
+                        html += '       <div class="store"><span class="storeName" style="font-size:17px;">' + st.u_name + '</span><span style="color:#757575;">매출(2) 매입(4)  </span></div>';
+                        html += '       <div class="brBottom" >';
+                        //      html += '           <div class="brOrder" ><span>매입 4건 매출 2건 </span> </div>';
+                        html += '           <div class="liRightBtn" onclick=" location.href = \'./order.html\'">주문 / 매입</div>';
+                        html += '        </div>';
+                        html += '   </div>';
+                        html += '</li>';
+
+                    });
+
+                    $("#" + idx).append(html);
+                    $(".liWrap").slideToggle("fast");
+
+                }
+
+
+            }); // e.preventDefault;
+
+
+            // }
+        }
+    </script>
+    <!-- 데이트피커 js/css -->
+	<link rel="stylesheet" href="./datepicker.css">
+	<script type="text/javascript" src="./jquery-ui.min.js"></script>
+    <script>
+$(function() {
+    //jQuery(function($){
+		$.datepicker.regional["ko"] = {
+			closeText: "취소",
+			prevText: "이전달",
+			nextText: "다음달",
+			currentText: "오늘",
+			monthNames: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
+			monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
+			dayNames: ["일","월","화","수","목","금","토"],
+			dayNamesShort: ["일","월","화","수","목","금","토"],
+			dayNamesMin: ["일","월","화","수","목","금","토"],
+			changeMonth: true, // month 셀렉트박스 사용
+			changeYear: true, // year 셀렉트박스 사용
+			weekHeader: "Wk",
+			dateFormat: "yy-mm-dd",
+			firstDay: 0,
+			isRTL: false,
+			showMonthAfterYear: true,
+			yearSuffix: ""
+		};
+		$.datepicker.setDefaults($.datepicker.regional["ko"]);
+		
+
+		
+		// Today 버튼 코드 추가
+		$.datepicker._gotoToday = function(id) { 
+			$(id).datepicker('setDate', new Date());
+			$(".ui-datepicker").hide().blur();
+		};
+		
+	});
+
+
+	
+		$('#sdate,#edate').datepicker({
+			closeText:'취소',
+			showButtonPanel: true,
+			onClose: function () {
+				if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+					$(this).val('');
+				}
+			}
+		});
+	//});
+
+    </script>
+    <!--#wrap-->
+
+
+</body></html>

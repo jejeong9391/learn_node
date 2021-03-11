@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimun-scale=1.0, width=device-width">
+    <title>신일푸드</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-TxKWSXbsweFt0o2WqfkfJRRNVaPdzXJ/YLqgStggBVRREXkwU7OKz+xXtqOU4u8+" crossorigin="anonymous">
+    <!--구글아이콘-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--alert플러그인-->
+    <link href="../lib/plugin/modal-master/css/jquery.modal.css" type="text/css" rel="stylesheet" />
+    <link href="../lib/plugin/modal-master/css/jquery.modal.theme-xenon.css" type="text/css" rel="stylesheet" />
+    <link href="../lib/plugin/modal-master/css/jquery.modal.theme-atlant.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../lib/plugin/modal-master/js/jquery.modal.js"></script>
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+
+    <!--main_list 공통js-->
+    <link href="../reset.css" rel="stylesheet">
+    <link href="./login.css" rel="stylesheet">
+
+
+</head>
+<style>
+    .left {
+        /*왼쪽 화살표 만들기*/
+        margin: 20px;
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+        border: solid;
+        border-width: 0 1px 1px 0;
+        display: inline-block;
+        padding: 8px;
+    }
+</style>
+
+<body>
+    <header id="header" style="background: #fff;">
+<!--         <div class="btnBack" id="topBack" onclick="history.back();" style="padding-left: 10px;"><i class="material-icons" style="display: block; line-height: 50px; ">arrow_back</i></div> -->
+    </header>
+    <!--#header-->
+    <div style="height: 50px; border-bottom: 0;">
+    </div>
+    <div id="mb_login" class="mbskin">
+        <form name="flogin" action="<?php echo $login_action_url ?>" onsubmit="return flogin_submit(this);" method="post" id="flogin" style="margin:0;">
+            <input type="hidden" name="url" value="<?php echo $login_url ?>">
+
+            <div style="width:100%;">
+                <h2 class="login_title">로그인</h2>
+            </div>
+
+            <div id="login_frm">
+                <!--   <label for="login_id" class="sound_only">아이디</label>-->
+                <input type="text" name="mb_id" id="login_id" placeholder="아이디(필수)" class="frm_input">
+                <!-- <label for="login_pw" class="sound_only">비밀번호</label>-->
+                <input type="password" name="mb_password" id="login_pw" placeholder="비밀번호(필수)" class="frm_input">
+            </div>
+            <div class="btn_sub" style="margin:0">
+                <!--<input type="submit" value="로그인" class="btn_submit">-->
+                로그인</div>
+        </form>
+        <div class="loginNotice">
+            <span style="text-align:center;">로그인 정보 분실 시, 관리자에게 문의하세요.</span>
+
+            <!-- &nbsp;&nbsp;&nbsp; -->
+        </div>
+    </div>
+    <div class="toast" style="display:none; position: absolute; bottom: 0;height: 30px; line-height: 30px;"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+
+            $("#login_pw").keydown(function(key) { // 엔터키 입력시
+                if (key.keyCode == 13) {
+                    login($("#login_id").val(), $("#login_pw").val());
+                }
+            });
+
+            $(".btn_sub").on('click', function() {
+                login($("#login_id").val(), $("#login_pw").val());
+            });
+
+        });
+
+        //샵스타일목록 rest호출
+        function login(u_id, u_pass) {
+            if ((!u_id) || (!u_pass)) {
+                // alert('아이디와 비밀번호 모두 입력해주세요.');
+                alertBox("아이디와 비밀번호 모두 입력해주세요.");
+
+            } else {
+
+                request('json/login.php', '', {
+                    "flag": "GET",
+                    "u_id": u_id,
+                    "u_pass": u_pass
+
+                }).then(function(resp) {
+                    var rowsNum = resp.data.meta.rows;
+                    if (rowsNum > 0) {
+
+                        var data = resp.data.data;
+                        data.forEach(function(item) {
+                            // 로그인 대상자 : 지점/ 배송기사 
+                            localStorage.setItem('u_token', item.u_token);
+                            localStorage.setItem('u_idx', item.u_idx); //토큰검사때문에 있어야함. 
+                            localStorage.setItem('u_name', item.u_name);
+                            localStorage.setItem('u_type', item.u_type); //센터idx
+                            localStorage.setItem('center_idx', item.center_idx); //센터idx
+                            localStorage.setItem('store_idx', item.store_idx); //지점 idx
+                            localStorage.setItem('rider_idx', item.rider_idx); //기사 idx
+
+                        });
+                        var result = chk_session();
+                        if (result) {
+
+                            // infoBox('로그인되었습니다.')
+                            msgToast('로그인되었습니다.');
+                            setTimeout(function() {
+                                location.href = '../list/order_list.html';
+                            }, 1200);
+                        }
+                    } else {
+                        alertBox("로그인 정보를 다시 확인해주세요.");
+
+                    }
+                });
+            }
+        }
+    </script>
+</body></html>

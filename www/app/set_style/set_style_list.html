@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<!--캐시삭제-->
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+
+
+    <link href="./../reset.css" rel="stylesheet">
+    <link href="./style_set.css" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+
+    <title>shop style</title>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header id="header">
+            <div class="btnBack" id="btnBack" onclick="history.back();" style="float: left;"><i class="material-icons" style="display: block; line-height: 50px;">arrow_back</i></div>
+            <div style="width: auto; display: inline-block;">샵 스타일</div>
+        </header>
+
+   
+        <div id="container">
+<!--
+            <div id="addBtn"><a href="./set_style_write.html">+ 추가하기</a></div>
+
+            <input type="file" name="file" id="file" accept="image/*" _capture="image" style="display: none;">
+            <input type="hidden" name="targetStyle" value="">  사진변경하려는 style num
+-->
+
+            <ul id="setList">     
+            </ul>
+
+        </div>
+        <!-- no footer -->        
+    </div>
+
+    <!-- toast div(alert창 대신사용) -->
+    <div class='toast' style='display:none;'></div>
+
+    <!-- rest -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script type="text/javascript">
+        var page = 1;
+
+        $(document).ready(function (){
+            console.log(page);
+            getSetStyleList(page); //페이지 로드시 샵스타일목록 가져오기
+            page++;
+        });
+
+        //샵스타일목록 rest호출
+        function getSetStyleList(page){
+            var b_code = "A0000";  //관리지점
+            request('/json/set-style.php', '', {  "flag":"GET", "u_token":"b935e82cce4a9f69b2c648b9fcc58879a233c301", "u_idx":"1240430416", "manage_b_code":b_code, "page":page,"scale":"10" }).then(function(resp){
+                var rowsNum = resp.data.meta.rows;
+
+                if(rowsNum > 0){
+                    //화면에 나타내기
+
+                    var html = "";
+                    //rest로 받아온 리뷰데이터를 forEach문으로 리뷰ul에 추가하기
+                    var styleList = resp.data.data;
+                    styleList.forEach(function (item){
+                        html += '<li>';
+                        html += '    <div class="setImgDiv">';
+                        html += '        <img src="'+item.style_image+'" class="setImg">';
+                        html += '    </div>';
+
+                        html += '    <div class="liRight">';
+//                        html += '        <div>#'+item.style_num+'</div>';
+//                        html += '        <div>'+item.reg_date+'</div>';
+                                        
+//                        html += '        <div class="liRightBtn" onclick="changeImg('+item.style_num+');">사진 변경</div>';
+//                        html += '        <div class="liRightBtn" onclick="alert('+item.style_num+');">내용 수정</div>';
+                        html += '        <div class="liRightBtn" onclick="deleteStyle('+item.style_num+');">더보기</div>';
+                        html += '   </div>';
+                        html += '</li>';
+                    });
+
+                    $("#setList").append(html);
+
+
+                }
+            });
+        }
+
+        //샵스타일 삭제 rest 호출
+        function deleteStyle(style_num){
+            request('/json/set-style.php', style_num, {  "flag":"DELETE", "u_token":"b935e82cce4a9f69b2c648b9fcc58879a233c301","u_idx":"1240430416" }).then(function(resp){
+
+                console.log(resp);
+
+                var state=resp.statusText;  //insert된 리뷰num(이미지전송시에도 사용)
+                if(state=='OK'){
+                    msgToast('정상적으로 삭제되었습니다.');
+                    location.reload();//새로고침
+                }
+            
+            });
+        }
+
+        //form-data로 사진변경 PUT rest호출
+        function styleImageUpload(style_num) {
+
+            var b_code = "A0000";  //관리지점코드
+            var styletag = $("input[name=tagAll]").val();  //스타일태그
+            var pet_b_num = $("input[name=petbNum]").val();  //품종num
+            // console.log(0, e[0]);
+            // let d = new FormData();
+            // d.append('file', e[0]);
+            var formData = new FormData();
+            var imagefile = document.querySelector('#file');
+            console.log(1, imagefile.files[0]);
+            formData.append("u_token", "b935e82cce4a9f69b2c648b9fcc58879a233c301");
+            formData.append("u_idx", "1240430416");
+            formData.append("flag", "PUT");
+            //formData.append("manage_b_code", b_code);
+            //formData.append("styletag", styletag);
+            //formData.append("pet_b_num", pet_b_num);
+            formData.append("pet_image", imagefile.files[0]);
+            // console.log(formData)
+
+            axios.post('http://www.prape.co.kr/json/set-style.php/'+style_num, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(r => {
+                console.log(r);
+                msgToast('정상적으로 처리되었습니다.');
+                location.reload();//새로고침
+
+            }).catch(e => {
+                console.error(e);
+            })
+            // request('/json/pet-img.php/1', '', {  "u_token":"cd157d49354b1f66c001b7360d83f622dccf540a","u_idx":"testtest", "pet_image" : file})
+        }
+
+
+        //무한스크롤 인식
+        $(window).scroll(function(){
+            // 스크롤이 끝에 닿는걸 인식
+            // 처음 스크롤이 끝이 닿은 이후로는 소수점 차이가 계속 발생해서 조건을 수정함
+            if ( ($(window).scrollTop()) + 1 >= $(document).height() - $(window).height() ) {
+                //console.log('스크롤인식');
+                //console.log(page);
+                getSetStyleList(page);
+                page++;
+            } 
+
+        });
+ 
+    </script>
+    <!-- rest -->
+
+    <script>
+        // 이미지 파일 선택하기
+        $("#file").on('change', function(){
+            //readInputFile(this);
+            if(this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[0]);
+            }
+
+            //사진선택하면 바로 사진변경 rest호출
+            styleImageUpload($("input[name=targetStyle]").val());
+        });
+
+        //사진변경 버튼 클릭
+        function changeImg(style_num){
+            //alert(style_num);
+            $("input[name=targetStyle]").val(style_num);
+
+            $("#file").click();
+        }
+
+        
+    
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<!--캐시삭제-->
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+
+
+    <link href="./../reset.css" rel="stylesheet">
+    <link href="./style_set.css" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+
+    <title>shop style</title>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header id="header">
+            <div class="btnBack" id="btnBack" onclick="history.back();" style="float: left;"><i class="material-icons" style="display: block; line-height: 50px;">arrow_back</i></div>
+            <div style="width: auto; display: inline-block;">샵 스타일 등록</div>
+        </header>
+
+   
+        <div id="container">
+            <div class="containerInner">
+
+                <input type="hidden" name="styleNum" value="">  <!--수정하려는 style_num(없으면 새로등록)-->
+
+                <div class="imgDiv">
+                    <img src="" id="style_image" style="display: none;">
+                </div>
+                
+                <div class="btnWrap" style="margin-bottom: 30px;">
+                    <div class="btnLeft">사진촬영</div>
+                    <input type="file" id="camera" name="camera" capture="camera" accept="image/*" style="display: none;">
+
+                    <div class="btnRight" onclick="document.all.file.click()">포토앨범</div>
+                    <input type="file" name="file" id="file" accept="image/*" _capture="image" style="display: none;">
+                </div>
+
+  
+                <div class="petbWrap">
+                    <div>반려동물 품종</div>
+                    <div class="lineText">
+                        <input type="hidden" name="petbNum" value="0">  <!--품종num-->
+                        <input type="text" name="petbBreeds" value="품종 없음" onclick="window.open('./set_breed_sch.html','','')" readonly>    <!--품종명-->
+                    </div>
+                </div>
+
+                <!--x버튼(품종선택 초기화)-->
+                <div class="circleBtn">
+                    <img src="./../img/icons/icon_57.png">
+                </div>
+
+                
+
+                <div class="tagWrap">
+                    <div class="tagBorder">    
+                        <input type="text" name="tagInput" id="tagInput"  placeholder="태그 입력" style="width: 120px;" onkeyup="if(event.keyCode==44||event.keyCode==188||event.keyCode==13)addTag(this.value);">
+                    </div>
+
+                    <input type="hidden" name="tagAll" value="">
+                </div>
+                
+            </div>
+
+        </div>
+
+
+        <!-- footer -->
+        <footer id="footer">
+            <div class="btnNext">
+                <p onclick="styleImageUpload();">등록</p>
+            </div>
+        </footer>       
+    </div>
+
+    <!-- toast div(alert창 대신사용) -->
+    <div class='toast' style='display:none'></div>
+
+    <script>
+		$(".circleBtn").click(function(){ //품종 x버튼 클릭시, 품종선택 초기화함
+			$("input[name=petbBreeds]").val("품종 없음");
+			$("input[name=petbNum]").val("0");
+		});
+
+        //태그 입력하기
+        var tagNum = 0;
+        function addTag(txt){
+            //텍스트 맨끝에 구분자,가 있으면 잘라내기
+            if(txt.substr(txt.length-1,txt.length)==',') txt=txt.substr(0,txt.length-1);
+            $("input[name=tagInput]").val("");
+
+            if(txt!=''){
+                $("#tagInput").before('<div class="tagItem"><span id="tag_'+tagNum+'">'+txt+'</span><img src="./../img/icons/icon_57.png" class="tagDel" onclick="delTag('+tagNum+')"></div>');
+
+                var hidden = $("input[name=tagAll]").val();
+                $("input[name=tagAll]").val(hidden+txt+",");
+
+                tagNum++;
+            }
+        }
+
+        //태그 삭제하기
+        function delTag(tagNum){
+            var txt = $("#tag_"+tagNum).text();
+            $("#tag_"+tagNum).parent("div").hide();
+
+            var returnVal = '';
+            var jbSplit = $("input[name=tagAll]").val().split(',');
+            for ( var i in jbSplit ) {
+            if(jbSplit[i]!=txt && jbSplit[i]!='')
+                {
+                returnVal += jbSplit[i]+',';
+                }
+            }
+            $("input[name=tagAll]").val(returnVal);
+        }
+
+
+        //앨범에서 이미지선택-input file[name=file]
+        // 등록 이미지 등록 미리보기
+        function readInputFile(input) {
+            if(input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#style_image').attr('src', e.target.result);
+                    $('#style_image').css('display', 'block');
+                };
+                reader.readAsDataURL(input.files[0]);
+
+                //카메라 input file 초기화
+                $("#camera").val("");
+            }
+        }
+        
+        // 이미지 파일 선택하기
+        $("#file").on('change', function(){
+            //console.log('파일선택');
+            readInputFile(this);
+        });
+
+
+        //사진촬영버튼클릭시 바로 카메라 실행하기-input file[name=camera]
+        $(document).ready(function(){
+            if (!('url' in window) && ('webkitURL' in window)) {
+                window.URL = window.webkitURL;
+            }
+        
+            $('#camera').change(function(e){
+                $('#style_image').attr('src', URL.createObjectURL(e.target.files[0]));
+                $('#style_image').css('display', 'block');
+
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[0]);
+
+                //앨범 input file 초기화해야함(등록할때 앨범file이 비워져있어야 카메라file에 선택된 이미지를 등록하므로)
+                $("#file").val("");
+
+            });
+
+            $(".btnLeft").click(function(){ //사진촬영 버튼 클릭시
+                $("#camera").click();
+            });
+        });
+
+    </script>
+
+    <!-- rest -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+			
+            //수정하려는 스타일num, 없으면 새로 등록
+            var styleNum = $("input[name=styleNum]").val();
+            if(styleNum&&styleNum!=''){
+                getSetStyleDetail( styleNum ); //페이지 로드시 수정하려는 스타일num으로 상세정보 가져오기
+            }
+			
+            
+        });
+
+        //샵스타일 상세정보 rest호출
+        function getSetStyleDetail(style_num){
+            var b_code = "A0000";  //관리지점
+
+            request('/json/set-style.php', style_num, {  "flag":"GET", "u_token":"b935e82cce4a9f69b2c648b9fcc58879a233c301", "u_idx":"1240430416", "manage_b_code":b_code }).then(function(resp){
+                var rowsNum = resp.data.meta.rows;
+                if(rowsNum > 0){
+                    //화면에 나타내기
+                    var item = resp.data.data[0];
+                    $("input[name=petbNum]").val(item.pet_b_num);  //품종num
+                    $("input[name=petbBreeds]").val(item.petb_breeds); //품종명
+                    
+                    if(item.shop_tag){
+                        var tagSplit = item.shop_tag.split(',');
+                        for (var i in tagSplit){
+                            addTag(tagSplit[i]);
+                        }
+                    }
+
+                    if(item.style_image && item.style_image!=''){
+                        $('#style_image').attr('src', item.style_image);
+                        $('#style_image').css('display', 'block');
+                    }
+                    
+
+                }
+            });
+        }
+
+
+
+        //form-data로 POST rest호출(스타일 등록, 수정시)
+        function styleImageUpload() {
+            var style_num = $("input[name=styleNum]").val();
+            if(style_num){
+                flag="PUT"; //style_num이 있으면 수정rest
+            } else{
+                flag="POST"; //새로운 스타일로 등록rest
+            }
+            var b_code = "A0000";  //관리지점코드
+            var styletag = $("input[name=tagAll]").val();  //스타일태그
+            var pet_b_num = $("input[name=petbNum]").val();  //품종num
+            // console.log(0, e[0]);
+            // let d = new FormData();
+            // d.append('file', e[0]);
+            var formData = new FormData();
+
+            //카메라 바로 실행시키는 버튼이 따로 있기 때문에 input file이 2개 존재함. 
+            var imagefile = document.querySelector('#file'); //포토앨범에서 선택한 이미지
+            console.log(1, imagefile.files[0]);
+            if(!imagefile.files[0]){ //앨범input file이 비워져있으면 카메라input file에서 가져오기
+                var imagefile = document.querySelector('#camera'); //카메라 실행해서 찍은 사진
+                console.log(2, imagefile.files[0]);
+            }
+
+            if(flag=="POST" && !imagefile.files[0]){
+                //스타일 등록시(POST) 이미지 파일이 없으면 return, 수정시(PUT)에는 이미지변경없이 품종이나 태그만 수정할 수도 있으므로 계속 진행
+               return  msgToast('정상 처리되지 않았습니다.');
+            }
+
+            formData.append("u_token", "b935e82cce4a9f69b2c648b9fcc58879a233c301");
+            formData.append("u_idx", "1240430416");
+            formData.append("flag", flag);
+            formData.append("manage_b_code", b_code);
+            formData.append("styletag", styletag);
+            formData.append("pet_b_num", pet_b_num);
+            formData.append("pet_image", imagefile.files[0]);
+            console.log(formData)
+
+            axios.post('http://www.prape.co.kr/json/set-style.php/'+style_num, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(r => {
+                console.log(r);
+                msgToast('스타일이 등록되었습니다.'); 
+            }).catch(e => {
+                console.error(e);
+            })
+            // request('/json/pet-img.php/1', '', {  "u_token":"cd157d49354b1f66c001b7360d83f622dccf540a","u_idx":"testtest", "pet_image" : file})
+            
+        }
+
+    </script>
+    <!-- rest -->
+    
+</body>
+</html>

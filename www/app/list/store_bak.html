@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimun-scale=1.0, width=device-width">
+    <title>신일푸드</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+
+    <!-- <script src="./script.js"></script>-->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+
+    <!--main_list 공통js-->
+    <link href="../reset.css" rel="stylesheet">
+    <link href="./list_style.css" rel="stylesheet">
+    <link href="./style_set.css" rel="stylesheet">
+</head>
+
+<body>
+    <style>
+        /*플러그인 css보다 우선적용*/
+        /* swiperSlider 페이징바*/
+        .swiper-pagination-bullet-active {
+            background: #ff8888;
+        }
+
+        /* rangeSlider Bar */
+        .irs--flat .irs-bar {
+            background-color: #fd6f73;
+        }
+    </style>
+
+    <div id="wrap">
+
+        <header id="header">
+            <div class="hdLeft" onclick="history.back();">
+                <a href="#">
+                    <!-- <i class="fas fa-chevron-left"></i>-->
+                    <i class="material-icons">keyboard_arrow_left</i>
+                </a>
+            </div>
+            <h3 class="textLogo"><a href="#"></a></h3>
+            <a href="../menu_setting/menu_setting.html" class="btnMenu">
+                <!--  <img src="./../img/icons/icon_02.png" alt="메뉴열기">-->
+                <i class="material-icons" style="color:#fff;">
+                    menu
+                </i>
+                <!-- <i class="fas fa-bars rightIcon"></i>-->
+            </a>
+            <!--.btnMenu-->
+        </header>
+
+
+        <!--#header-->
+
+        <div id="container">
+            <!--   <div class="boxWrap">
+                <div class="box1">
+                    주문박스
+                </div>
+                <div class="box2">
+                    배달박스
+                </div>
+            </div>-->
+            <div class="noContent" style="display: none; ">
+                <p>담당 매장이 없습니다. </p>
+            </div>
+            <ul id="setList">
+            </ul>
+
+        </div>
+        <!-- no footer -->
+    </div>
+
+    <!-- toast div(alert창 대신사용) -->
+    <div class="toast" style="display:none;"></div>
+
+    <!-- rest -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script type="text/javascript">
+        var page = 1;
+
+        $(document).ready(function() {
+            console.log(page);
+            getHeadList(page); //로그인 되어있으면 기사num 가져오기  
+            page++;
+
+
+
+        });
+
+        //샵스타일목록 rest호출
+        function getHeadList(page) {
+            request('json/head-list.php', '', {
+                "flag": "GET",
+                "u_idx": localStorage.getItem('u_idx'),
+                "rider_idx": localStorage.getItem('rider_idx'),
+                "u_token": localStorage.getItem('u_token'),
+                "page": page,
+                "scale": "10"
+            }).then(function(resp) {
+                var rowsNum = resp.data.meta.rows;
+
+                if (rowsNum > 0) {
+                    //화면에 나타내기
+                    $('.noContent').hide();
+                    $('#setList').show();
+                    var html = "";
+                    //rest로 받아온 리뷰데이터를 forEach문으로 리뷰ul에 추가하기
+                    var headList = resp.data.data;
+                    headList.forEach(function(hd) {
+                        html += '<li id="' + hd.u_idx + '" class="getStore">';
+                        html += '    <div class="setImgDiv">';
+
+                        if (hd.image != null) {
+                            html += '        <img src="http://oil.mesoft.kr/data/logo/' + hd.image + '" class="setImg">';
+                        } else {
+                            html += '        <span  class="noImg">no image</span>';
+                        }
+                        html += '    </div>';
+                        html += '    <div class="liRight">';
+                        html += '       <div class="brTitle" ><span>' + hd.u_name + '</span> </div>';
+                        html += '   </div>';
+                        html += '</li>';
+
+                    });
+
+                    $("#setList").append(html);
+                    $(".getStore").on('click', function() {
+                        // alert($(this).attr('id'));
+                        getStore($(this).attr('id'));
+                    });
+                } else {
+                    $('.noContent').show();
+                    $('#setList').hide();
+                }
+            });
+        }
+
+        //샵스타일목록 rest호출
+        function getStore(idx) {
+
+            //열려있는 li가 있으면 닫기
+            var clickLi = $("#" + idx).children("li");
+            // if (clickLi.css("display")=="none") {
+            if (clickLi.length) {
+                clickLi.slideToggle("fast");
+                return false;
+            }
+
+
+            //li 초기화
+            $('.liWrap').remove();
+
+
+            request('json/store-list.php', idx, {
+                "flag": "GET",
+                "u_idx": localStorage.getItem('u_idx'),
+                "rider_idx": localStorage.getItem('rider_idx'),
+                "u_token": localStorage.getItem('u_token')
+            }).then(function(resp) {
+                var rowsNum = resp.data.meta.rows;
+
+                if (rowsNum > 0) {
+                    //화면에 나타내기
+
+                    var html = "";
+                    //rest로 받아온 리뷰데이터를 forEach문으로 리뷰ul에 추가하기
+                    var store = resp.data.data;
+                    store.forEach(function(st) {
+                        html += '<li id="' + st.u_idx + '" class="liWrap" style="display:none;">';
+                        ///지역별 지점출력 
+                        html += '    <div class="liTitle">';
+                        html += '       <div class="store"><span class="storeName" style="font-size:15px;">' + st.u_name + '</div>';
+                        html += '       <div class="brBottom" >';
+                        //      html += '           <div class="brOrder" ><span>매입 4건 매출 2건 </span> </div>';
+                        html += '           <div class="liRightBtn" >';
+                        html += '       <input type="hidden" class="st_idx" value="' + st.u_idx + '" >';
+                        html += '주문하기</div>';
+                        html += '        </div>';
+                        html += '   </div>';
+                        html += '</li>';
+
+                    });
+
+                    $("#" + idx).append(html);
+
+                    // 마지막 hd의 마지막li이면 bottom추가 
+                    //부모 li가 조부모인 ul의 마지막 요소이면 css를 추가해라 
+                    var pr = $(".liWrap").parents('li').attr('id');
+                    var gr = $("#setList").children('li:last').attr('id');
+
+                    if (pr == gr) {
+                        $(".liWrap").children(".liTitle").css("border-bottom", "1px solid #ddd");
+                    }
+
+                    $(".liWrap").slideToggle("fast");
+
+                    $('.liRightBtn').on('click', function() { //주문하기 이동처리 
+
+                        var st_idx = $(this).find('.st_idx').val();
+                        var st_name = $(this).parents('#' + st_idx).find('.storeName').text();
+                        //alert(st_name);
+                        location.href = "./order_detail.html?st_idx=" + st_idx + '&st_name=' + st_name;;
+                    });
+
+
+                }
+
+
+            }); // e.preventDefault;
+
+
+            // }
+        }
+    </script>
+    <!-- rest -->
+
+    <script>
+
+
+
+    </script>
+    <!--#wrap-->
+
+
+    <script type="text/javascript">
+
+
+    </script>
+
+
+</body></html>

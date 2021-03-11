@@ -1,0 +1,62 @@
+<html>
+
+<head>
+    <title>BLUEB</title>
+</head>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+<body>
+    <script language="JavaScript">
+        $(function() {
+
+            $(".btn").on('click', function() {
+                sel($(this).attr('id'), 1);
+            });
+        })
+
+        function sel(type, pro) { // type: 덧/뺄 pro: 입출고
+
+            var amt = Number($('.amount').val());
+            var price = Number($(".sell_price").val()); //단가
+            var sumPrice = $(".sum").text();
+            var sum;
+
+            if (type == 'add') {
+                if (pro == '-1') amt += 0.5;
+                else amt++;
+
+
+            } else {
+                if (pro == '-1') amt -= 0.5;
+                else amt--;
+            }
+
+            if (amt > 0) {
+                sum = amt * price;
+            } else {
+                amt = 0;
+                sum = 0;
+                alert('0개이하는 안되욤');
+            }
+            $('.amount').val(amt); //수량변경 
+            $(".sum").val(sum);
+            console.log(sum);
+        }
+        /*기존 소스
+        https://www.blueb.co.kr/?m=bluebdata&bid=js_forms&uid=1874&c=1/9
+        */
+    </script>
+
+
+    <!--단가 -->
+    <input type="hidden" name="sell_price" class="sell_price" value="5500">
+    수량 :
+    <input type="text" name="amount" class="amount" value="1" size="3" onchange="change();">
+    <!-- <input type="button" value=" + "  id="add" onclick="add();"><input type="button" id="del" value=" - " onclick="del();"><br>-->
+    <input type="button" value=" + " id="add" class="btn">
+    <input type="button" value=" - " id="del" class="btn"><br>
+
+    금액 : <input type="text" name="sum" class="sum" size="11" value="5500" readonly>원
+
+</body></html>

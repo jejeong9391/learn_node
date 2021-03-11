@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+#wrap {
+    width: 100%;
+	height: 100%;
+    position: relative;
+}
+
+#container{
+    width: 100%;
+    margin-top: 50px;/*헤더높이만큼x*/
+    text-align: left;
+}
+
+/* header start */
+#header{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+	position: fixed;
+    top: 0px;
+    left: 0px;
+	z-index:100;
+	background-color: #fff;
+	border-bottom: 1px solid #ddd;
+}
+
+.btnBack{
+    width: 15%;
+    text-align: center;
+    color: #ff7d7e;
+    background-color: #fff;
+    vertical-align: middle;
+}
+/* header end */
+
+
+/* container start */
+
+.innerDiv{
+    margin-left: 20px; padding: 20px 0; border-bottom: 1px solid #eee;
+}
+
+.innerDiv a {
+    color:blue;
+}
+
+.innerDiv > p {
+    color: #888;
+}
+
+.title{
+    font-weight: 500; font-size: 15px;
+}
+
+/* container end */

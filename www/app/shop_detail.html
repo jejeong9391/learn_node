@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="./reset.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style_shop.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+
+    <style>
+    .swiper-pagination{
+        clear: both;
+        width:100%; 
+        height: 60px; 
+        text-align: center; 
+        background-color:#fff; 
+		z-index:100;
+    }
+
+    .swiper-pagination-bullet{
+        background-color: #fff; 
+        width: 33%; position: relative; float: left; border-radius: 0; opacity: 1;
+        height: 60px;
+		outline:0;
+    }
+
+    .swiper-pagination-bullet[aria-label="Go to slide 2"]{
+        margin-left: 0.5%; margin-right: 0.5%;
+    }
+
+    .swiper-pagination-bullet > div{
+        text-align: center; width:100%; height: 5px; margin-top: 10px; margin-bottom: 5px;
+    }
+
+    .inner-dot{
+        height: 5px; margin: 0px auto; display: gone;
+    }
+
+    .swiper-pagination-bullet-active{
+        width: 33%; position: relative; float: left; border-radius: 0; opacity: 1; color: crimson; outline:0;
+    }
+
+    .swiper-pagination-bullet-active > img{
+        display: block;
+    }
+
+    .swiper-container{
+        height:auto; top:60px; clear: both; min-height: 100%; background-color:#fff; z-index:10;
+    }
+    </style>
+
+    <title>shop detail</title>
+</head>
+<body id="body">
+
+<div id="wrap">
+
+	<!-- header -->
+    <header id="header" style="z-index:100;">
+        <div class="m-header">
+
+			<div class="header-up">
+                <div class="head_side">
+                    <div class="head_in" id="back">  </div>
+                </div>
+                <div class="head_middle" style="background-color: transparent;">
+                    
+                </div>
+                <div class='head_side'>
+                    <div class="head_in"><img src="./img/icons/bottom02_on.png" style="width:25px; background-color: transparent;"></div>
+                </div>
+            </div>
+
+			<div class="header-down" style="display: none;">
+                <div class="head_side">
+                    <div class="head_in">  </div>
+                </div>
+                <div class="head_middle">
+                    <div class="head_in">관리자지점</div>
+                </div>
+                <div class='head_side'>
+                    <div class="head_in"><img src="./img/icons/bottom02_on.png" style="width:25px; background-color: transparent;"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+	<!-- header -->
+
+    <div id="container" style="z-index:1;">
+        <div class="shop-info-top">
+                <div class="shop-header">
+                    
+                    <div class="shop-header-myshop">
+                        <div class="myshop-star"><img src="./img/icons/icon_52.png" id="myshop-btn"></div>
+                        <input type="hidden" name="myshop" value="0">
+                    </div>
+
+                    <div class="shop-header-img">
+                        <img src="http://www.prape.co.kr/json/img/Branch/A000020190509164118.jpeg" id="shop-img">
+                    </div>
+
+                    <div class="shop-header-profile">
+                        <div class="shop-profile"><img src="http://www.prape.co.kr/json/img/Branch/A000020190509164118.jpeg" id="shop-img-min"></div>
+                        <div class="shop-header-info">
+                            <div class="shop-name">관리자지점</div>
+                            <div class="shop-addr"><img src="./img/icons/icon_03.png" > 부산광역시 해운대구 해운대로 205번길17</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-pagination" id="sp-tab">
+                    <div class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1" >
+                        <div><img src="/img/icons/bl_03.png" class="inner-dot-1" style="display: gone;"></div>
+                        정보
+                    </div>
+                    <div class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2">
+                        <div><img src="" class="inner-dot-2"></div>
+                        스타일<span> 20</span>
+                    </div>
+                    <div class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3" >
+                        <div><img src="" class="inner-dot-3"></div>
+                        리뷰<span> 8</span>
+                    </div>
+                </div>
+        </div>
+
+	
+	
+
+        <!-- swiper -->
+        <div class="swiper-container" style="margin-top:0;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div id="overflow_0" style="height:100%; overflow-y:auto;-webkit-overflow-scrolling: touch; ">
+                        <div class="container_0" style="margin-bottom:160px;">
+                            
+                            <div class="shop-info">
+                                <div class="style_img">
+                                    <div><img src="http://www.prape.co.kr/json/img/Shop_style/A000020190523141610.jpeg" id="style_img1"></div>
+                                    <div><img src="http://www.prape.co.kr/json/img/Shop_style/A000020190523145244.jpeg" id="style_img2"></div> 
+                                    <div><img src="http://pos.prape.co.kr/json/img/Shop_style/A000020190731145329.jpeg" id="style_img3"></div>
+                                </div>
+                            </div>
+
+                            <script>
+                            $('.style_img').draggable({
+                                axis:"x",  //x:가로로만 움직이게 하는 옵션, y는 세로로만 움직이게 하는 옵션
+                                stop:function(){
+                                    $(this).animate({top:0, left:0}, 1000, 'easeOutElastic');
+                                }
+                            })
+                            </script>
+
+                            <div class="shopinfo" >
+                                <div class="shopinfo-title">메뉴 및 가격</div>
+
+                                <div class="shopinfo-memo">
+                                    <div>
+                                        <div>깔끔한 미용</div>
+                                    </div>
+                                </div>
+
+                                <div class="shopinfo-contents">
+                                    <ul class="shopinfo-list">
+                                        <li>
+                                            <div class="shopinfo-left"><p>부분미용</p></div>
+                                            <div class="shopinfo-right"><p>10,000원</p></div>
+                                        </li>
+
+                                        <li>
+                                            <div class="shopinfo-left"><p>부분+목욕</p></div>
+                                            <div class="shopinfo-right"><p>10,000원</p></div>
+                                        </li>  
+                                        
+                                        <li>
+                                            <div class="shopinfo-left"><p>전체(클리핑)</p></div>
+                                            <div class="shopinfo-right"><p>10,000원~</p></div>
+                                        </li>
+
+                                        <li>
+                                            <div class="shopinfo-left"><p>스포팅</p></div>
+                                            <div class="shopinfo-right"><p>10,000원~</p></div>
+                                        </li>
+
+                                        <li>
+                                            <div class="shopinfo-left"><p>전체가위컷</p></div>
+                                            <div class="shopinfo-right"><p>10,000원~</p></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <div class="shopinfo">
+                                <div class="shopinfo-title">매장정보</div>
+
+                                <div class="shopinfo-contents">
+                                    <div class="shopinfo-map">
+                                        <div class="shop-address"><img src="./img/icons/icon_17.png" class="map-icon" style="width: 15px; height: auto;"> 부산광역시 해운대구 해운대로 205번길17</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="shopinfo">
+                                <div class="shopinfo-title">전화번호</div>
+
+                                <div class="shopinfo-contents" style="height: 50px;">
+                                    <div class="shopinfo-tel-l">
+                                        <p>02-123-4567</p>
+                                    </div>
+                                    <div class="shopinfo-tel-r">
+                                        <div>
+                                            <img src="./img/icons/icon_53.png" style="height: 25px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="shopinfo">
+                                <div class="shopinfo-title" style="width: 100%; float: left;">영업시간</div>
+
+                                <div class="shopinfo-contents">
+                                    <ul class="shopinfo-list">
+                                        <li>
+                                            <div class="shopinfo-left"><p>평일</p></div>
+                                            <div class="shopinfo-right"><p>11:00 ~ 20:00</p></div>
+                                        </li>
+
+                                        <li>
+                                            <div class="shopinfo-left"><p>금요일(대체공휴일)</p></div>
+                                            <div class="shopinfo-right"><p>11:00 ~ 20:30</p></div>
+                                        </li>  
+                                        
+                                        <li>
+                                            <div class="shopinfo-left"><p>주말</p></div>
+                                            <div class="shopinfo-right"><p>11:00 ~ 20:30</p></div>
+                                        </li>
+
+                                        <li>
+                                            <div class="shopinfo-left"><p>공휴일</p></div>
+                                            <div class="shopinfo-right"><p>11:00 ~ 20:30</p></div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                            <div class="shopinfo" style="height: 200px;">
+                                <div class="shopinfo-title">부가정보</div>
+                                <div class="shopinfo-contents">
+
+                                    <div class="shop-tag-list">
+                                        <button type="button" role="radio" aria-checked="false" data-tab-index="0" data-clk="lif.rcptab1" class="shop-tag">주차가능</button>
+                                        <button type="button" role="radio" aria-checked="false" data-tab-index="0" data-clk="lif.rcptab1" class="shop-tag">예약제</button>
+                                        <button type="button" role="radio" aria-checked="false" data-tab-index="0" data-clk="lif.rcptab1" class="shop-tag">야간</button>
+                                        <button type="button" role="radio" aria-checked="false" data-tab-index="0" data-clk="lif.rcptab1" class="shop-tag">예약우선제</button>
+                                        <button type="button" role="radio" aria-checked="false" data-tab-index="0" data-clk="lif.rcptab1" class="shop-tag">애견전문</button>
+                                    </div>
+
+                                </div>
+                            
+                            </div>
+
+                            <div class="shopinfo" style="height: 150px;">
+                                <div class="shopinfo-contents" style="text-align: center;">
+                                    <img src="./img/icons/icon_54.png" style="width: 40%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--<div class="swiper-slide swiper-slide-next">-->
+                <div class="swiper-slide">
+                    <div id="overflow_1" style="height:100%; overflow-y:auto;-webkit-overflow-scrolling: touch; ">
+                        <div class="container_1">
+                            <div style="height: 200px; line-height: 200px; text-align: center; color: #ff7d7e;">등록된 이미지가 없습니다.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div id="overflow_2" style="height:100%; overflow-y:auto;-webkit-overflow-scrolling: touch; ">
+                        <div class="container_2">
+                            <div style="height: 200px; line-height: 200px; text-align: center; color: #ff7d7e;">등록된 후기가 없습니다.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- swiper -->
+
+	
+    </div>
+
+    <!-- footer-->
+	<footer id="footer">
+         <div class="btnNext">
+              <a href="#"><p>예약하기</p></a>
+         </div>
+    </footer>
+
+
+</div>
+
+
+
+
+<!-- toast div(alert창 대신사용) -->
+<div class='toast' style='display:none'></div>
+
+
+
+	<script>
+			//--- 스크롤 위치에 따라 지점헤더 보이도록
+			var h_header = 200;
+            $(window).scroll(function(){
+                var num = $(window).scrollTop();
+                if(num >= h_header) {
+                    $(".header-down").show();
+                } else {
+                    $(".header-down").hide();
+                }
+            });
+			//-------------------------------
+
+            $(document).ready(function (){
+
+				//스크롤시 특정위치에서 swiper탭메뉴 고정하기
+				var $gnb = $("#sp-tab");
+                var gnbTop = $gnb.offset().top;
+				//alert(gnbTop);
+            
+                function fixGNB() {
+                    var winTop = $(window).scrollTop() + 51;
+					//alert(gnbTop+"@@"+winTop);
+					//console.log(gnbTop+"@@"+winTop);
+                    $gnb.css({
+                        'position': (winTop > gnbTop) ? 'fixed' : 'absolute',
+                        'top': (winTop > gnbTop) ? '50px' : ''
+                    });
+                }
+            
+                fixGNB();
+            
+                $(window).scroll(function () {
+                    fixGNB();
+                });
+				//----------
+
+
+				//별아이콘 클릭시 마이샵등록,취소
+                $("#myshop-btn").click(function(){
+                    //alert($("input[name=myshop]").val());
+                    if($("input[name=myshop]").val()=='0'){
+						//toast div띄우기
+						msgToast('마이샵 등록');
+                        $("input[name=myshop]").val('1');
+                        $("#myshop-btn").attr("src","./img/icons/icon_52_on.png");
+
+                        //마이샵 등록하기 기능 추가
+
+                    } else if($("input[name=myshop]").val()=='1'){
+
+						msgToast('마이샵 취소');
+                        $("input[name=myshop]").val('0');
+                        $("#myshop-btn").attr("src","./img/icons/icon_52.png");
+
+                        //마이샵 취소하기 기능 추가
+
+                    }
+                    
+                });
+
+
+
+				/* 2팀장 swiper 참고 */
+				var index_name = new Array("정보","스타일","리뷰");
+				var swiper = new Swiper('.swiper-container',{
+					autoHeight : true,
+
+					pagination:{
+						el:'.swiper-pagination',
+						clickable: true,
+						renderBullet: function(index, className){
+							//alert(index);
+							//return '<span class="' + className + '">' + index_name[index] + '</span>';
+
+							if(index==0){
+								return '<div class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide '+ index+1 +'"><div><img src="./img/icons/bl_03.png" class="inner-dot" id="inner-dot-'+index+'" style="display:block;"></div>' + index_name[index] + '</div>';
+							} else {
+								return '<div class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide '+ index+1 
+								+'"><div><img src="./img/icons/bl_03.png" class="inner-dot" id="inner-dot-'+index+'" style="display:none;"></div>' 
+								+ index_name[index] + '<span style="margin-left:1px; color: crimson;">8</span></div>';
+							}
+							
+						}
+					}
+
+				});
+				swiper.on('slideChange', function(){
+					//alert(this.activeIndex);
+					
+					if(this.activeIndex==0){
+						$('#inner-dot-'+1).css("display","none");
+						$('#inner-dot-'+2).css("display","none");
+					} else if(this.activeIndex==1) {
+						$('#inner-dot-'+0).css("display","none");
+						$('#inner-dot-'+2).css("display","none");
+					} else if(this.activeIndex==2){
+						$('#inner-dot-'+0).css("display","none");
+						$('#inner-dot-'+1).css("display","none");
+					} else {
+						
+					}
+					$('#inner-dot-'+this.activeIndex).css("display","block");
+
+					var position = $(".swiper-pagination > span").eq(swiper.activeIndex).offset().left;
+					$(".swiper-pagination").scrollLeft(position);
+					
+
+				});
+				/*--- swiper ---*/
+
+            });
+
+
+
+			//toast div 띄우기
+			function msgToast(msg){
+				$('.toast').html(msg);
+				$('.toast').fadeIn(400).delay(1000).fadeOut(400);
+			}
+	
+	</script>
+</body>
+</html>

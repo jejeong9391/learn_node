@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimun-scale=1.0, width=device-width">
+    <title>신일푸드</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-TxKWSXbsweFt0o2WqfkfJRRNVaPdzXJ/YLqgStggBVRREXkwU7OKz+xXtqOU4u8+" crossorigin="anonymous">
+
+    <!-- <script src="./script.js"></script>-->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+
+    <!--main_list 공통js-->
+    <link href="../reset.css" rel="stylesheet">
+    <link href="./notice.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+            <div class="hdLeft">
+                <a href="../menu_setting/menu_setting.html">
+                    <!--   <i class="fas fa-chevron-left"></i>-->
+                    <i class="material-icons">keyboard_arrow_left</i>
+                </a>
+            </div>
+            <h3 class="textLogo"><a href="#">공지사항</a></h3>
+            <a href="../list/order_list.html" class="btnMenu">
+                <!--  <img src="./../img/icons/icon_02.png" alt="메뉴열기">-->
+                <i class="fas fa-home rightIcon"></i>
+            </a>
+            <!--.btnMenu-->
+        </header>
+        <!--#header-->
+
+        <div id="container">
+            <div class="noContent" style="display: none; ">
+                <p>공지사항이 없습니다. </p>
+            </div>
+            <ul id="setList">
+                <!--          <li class="getNoti" id="1">
+                    <div class="notiWrap">
+                        <div class="notiIcon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div class="notiContents">
+                            <div class="notiTitle">[공지] 시스템 업데이트 작업 안내</div>
+                            <div class="notiTitleDate"><span>2020.02.18 15:27:33</span></div>
+                        </div>
+                        <div class="goDetail">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                반복시작
+                <li class="getNoti" id="2">
+                    <div class="notiWrap">
+                        <div class="notiIcon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div class="notiContents">
+                            <div class="notiTitle">[공지] 노랑통닭 센텀스타점 오픈</div>
+                            <div class="notiTitleDate"><span>2020.02.21 15:27:33</span></div>
+                        </div>
+                        <div class="goDetail">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="getNoti" id="5">
+                    <div class="notiWrap">
+                        <div class="notiIcon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div class="notiContents">
+                            <div class="notiTitle">[공지] 굽네치킨 폭립 원산지 변경 안내</div>
+                            <div class="notiTitleDate"><span>2020.03.14 15:27:33</span></div>
+                        </div>
+                        <div class="goDetail">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>-->
+                <!--반복끝-->
+            </ul>
+            <div class="blank"></div>
+        </div>
+        <!-- container -->
+
+    </div>
+
+    <!-- toast div(alert창 대신사용) -->
+    <div class="toast" style="display:none;"></div>
+
+    <!-- rest -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script type="text/javascript">
+        var page = 1;
+
+        $(document).ready(function() {
+          //  console.log(page);
+            getNotiList();
+            page++;
+
+
+        });
+
+        //샵스타일목록 rest호출
+        function getNotiList(page) {
+
+            request('json/notice-list.php', '', {
+                "flag": "GET",
+                "u_idx": localStorage.getItem('u_idx'), "rider_idx": localStorage.getItem('rider_idx'),
+                "u_token": localStorage.getItem('u_token'),
+                "page": page,
+                "scale": "10"
+            }).then(function(resp) {
+                var rowsNum = resp.data.meta.rows;
+
+                if (rowsNum > 0) {
+                    //화면에 나타내기
+                      $('.noContent').hide();
+                    $('#setList').show();
+
+                    var html = "";
+                    //rest로 받아온 리뷰데이터를 forEach문으로 리뷰ul에 추가하기
+                    var noti = resp.data.data;
+                    noti.forEach(function(item) {
+                        html += '<li id="' + item.wn_num + '" class="getNoti">';
+                        html += '    <input type="hidden" name="wn_num" value="'+ item.wn_num + '">';
+                        html += '  <div class="notiWrap">';
+                        html += '    <div class="notiIcon">';
+                        html += '       <i class="fas fa-volume-up"></i>';
+                        html += '    </div>';
+                        html += '    <div class="notiContents">';
+                        //    html += '       <div class="notiTitle">[공지]&nbsp;' + item.wn_title;
+                        html += '       <div class="notiTitle">' + item.wn_title;
+                        html += '   </div>';
+                        html += '       <div class="notiTitleDate"><span>' + item.reg_date + '</span></div>';
+                        html += '   </div>';
+                        html += '    <div class="goDetail">';
+                        html += '         <i class="fas fa-chevron-right"></i>';
+                        html += '    </div>';
+                        html += '   </div>';
+                        html += '</li>';
+                    });
+
+                    $("#setList").append(html);
+
+                    $(".getNoti").on("click", function() {
+                        // alert('클릭욤');
+                        var notiNum = $(this).children('input').val();
+                        location.href = 'noti_detail.html?notiNum=' + notiNum;
+                    });
+
+                }else{
+                      $('.noContent').show();
+                    $('#setList').hide();
+                }
+            });
+        }
+    </script>
+    <!-- rest -->
+</body></html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!--사업자번호를 자동으로 통화 링크로 인식하지 못하게 하는 메타태그-->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!--캐시삭제-->
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+
+
+    <link href="./../reset.css" rel="stylesheet">
+    <link href="./style_setting.css" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <!--구글아이콘-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--rest-->
+    <script type="text/javascript" src="./../lib/js/function.js"></script>
+       <!--alert플러그인-->
+	<link href="../lib/plugin/modal-master/css/jquery.modal.css" type="text/css" rel="stylesheet" />
+	<link href="../lib/plugin/modal-master/css/jquery.modal.theme-xenon.css" type="text/css" rel="stylesheet" />
+	<link href="../lib/plugin/modal-master/css/jquery.modal.theme-atlant.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="../lib/plugin/modal-master/js/jquery.modal.js"></script>
+
+    <title>menu setting</title>
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header id="header">
+            <div class="btnBack" id="topBack" onclick="history.back();" style="float: left;"><i class="material-icons" style="display: block; line-height: 50px;">arrow_back</i></div>
+            <div  class="userInfo" style="width: 80%; display: inline-block;"><!--<a href="./login.html"><span class="topSpan">정지은 님 반갑습니다.</span></a>--></div>
+
+        </header>
+
+        <div id="container">
+            <div class="menuDiv">주문정보</div>
+            <!--  <div class="subDiv">주별입출고현황<span id="appVer">v1.0.0_beta</span></div>-->
+            <div class="subDiv" id="order" onclick="location.href='../list/order_list.html'"><span class="leftSpan">주문관리</span><a href="void(0)" class="arrow"></a></div>
+             <div class="subDiv" id="store" onclick="location.href='../list/store_list.html'"><span class="leftSpan">매장리스트</span><a href="void(0)" class="arrow"></a></div>
+
+
+            <div class="menuDiv">보고서</div>
+            <!--  <div class="subDiv">주별입출고현황<span id="appVer">v1.0.0_beta</span></div>-->
+            <div class="subDiv" id="weekList"><span class="leftSpan">주문내역(예정)</span><a href="#" class="arrow"></a></div>
+            <!-- <div class="subDiv" id="monthList"><span class="leftSpan">월별입출고현황</span><a href="#" class="arrow"></a></div> -->
+
+			<div class="menuDiv">이용안내</div>
+            <!--  <div class="subDiv">주별입출고현황<span id="appVer">v1.0.0_beta</span></div>-->
+            <div class="subDiv" id="notice" onclick="location.href='../notice/noti_list.html'"><span class="leftSpan">공지사항</span><a href="#" class="arrow"></a></div>
+            <div class="subDiv" id="terms"><span class="leftSpan">이용약관</span><a href="#" class="arrow"></a></div>
+			<div class="subDiv">앱 버전 정보<span id="appVer">v1.0.0_beta</span></div>
+
+           <!--  <div class="menuDiv">이용안내</div>
+            <div class="subDiv" id="support" onclick="location.href='../notice/noti_list.html'">
+                <span class="leftSpan">공지사항</span>
+                <a href="" class="arrow"></a>
+            </div>
+            <div class="subDiv" id="terms">
+                <span class="leftSpan">이용약관</span>
+                <a href="#" class="arrow"></a>
+            </div>
+            <div class="subDiv">앱 버전 정보<span id="appVer">v1.0.0_beta</span></div> -->
+
+            <div class="menuDiv">로그인 정보</div>
+            <div class="subDiv" id="btnLogin" style="display: none;">로그인<a href="#" class="arrow"></a></div>
+            <div class="subDiv" id="btnChg_pw"><span class="leftSpan">비밀번호 변경</span><a href="#" class="arrow"></a></div>
+            <div class="subDiv" id="btnLogout"><span class="leftSpan">로그아웃</span><a href="#" class="arrow"></a></div>
+           
+
+        </div>
+        <div class="blank"></div>
+
+
+        <!--//이거 쓰려면 bottom 여백 줘야함
+            <div id="footer">
+            <div>(주) 신일푸드 | 대표 김김김</div>
+            <div>요거필요없으면 지우자요</div>
+            <div>사업자등록번호 : 617-81-52019</div>
+        </div>
+-->
+
+    </div>
+
+    <script>
+        $(function(){
+             var sessionVal = localStorage.getItem('u_name');
+            $(".userInfo").append("<span class='topSpan'>"+sessionVal+" 님 반갑습니다.</span>");
+
+        })
+        function logout(){
+            localStorage.clear();
+            var result = chk_session();
+           /* if (!result) {
+                msgToast('로그아웃 되었습니다.');
+                setTimeout(function() {
+                      location.href = "/menu_setting/login.html";
+                }, 1200);
+            }*/
+        }
+        
+        $("#btnLogin").on('click', function() {
+            location.href = "./login.html";
+        });
+
+        $("#openSource").on('click', function() {
+            location.href = "./opensource.html";
+        });
+         $("#btnChg_pw").on('click', function() {
+            location.href = "./chg_pw.html";
+        });
+        
+        
+        $("#btnLogout").on('click', function() {
+             logout();
+        });
+
+        $(".subDiv a").on('click', function() { //a태그 무효화 
+            event.preventDefault();
+        });
+    </script>
+
+
+</body></html>
